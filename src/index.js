@@ -1,12 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './containers/App/App';
+import './styles/main.scss';
 import * as serviceWorker from './serviceWorker';
+import rootReducer from './reducers';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const devTools = composeWithDevTools(applyMiddleware())
+const store = createStore(rootReducer, devTools);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+document.getElementById('root'));
+
 serviceWorker.unregister();
